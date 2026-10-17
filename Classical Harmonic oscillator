@@ -1,0 +1,64 @@
+#Simulation of Harmonic Oscillator for given initial condition(Euler Method)
+import numpy as np
+import matplotlib.pyplot as plt
+positions=[]
+velocities=[]
+accelerations=[]
+kenergy=[]
+penergy=[]
+energy=[]
+k=4.0
+m=10.0
+v=0.0
+x=1.0
+dt=0.001
+time=np.arange(0,50,0.001)
+
+time_period=2*np.pi*(m/k)**0.5
+print("time period=",time_period)         #time period of the oscillator    
+
+for i in time:                      
+    a=-(k/m)*x
+    accelerations.append(a)
+    KE=0.5*m*(v**2)
+    kenergy.append(KE)
+    PE=0.5*k*(x**2)
+    tenergy=KE+PE
+    penergy.append(PE)
+    energy.append(tenergy)
+    v+=a*dt                     #since velocity is updated before position, so it will not store iinitial values of velocity and position
+    velocities.append(v)
+    x+=v*dt
+    positions.append(x)
+
+plt.plot(time,positions)        #position-time graph
+plt.xlabel("Time")
+plt.ylabel("Position")
+plt.grid()
+plt.show()
+
+plt.plot(time,velocities)      #velocity-time graph
+plt.xlabel("Time")
+plt.ylabel("Velocity")
+plt.grid()
+plt.show()
+
+plt.plot(time,accelerations)   #acceleration-time graph
+plt.xlabel("Time")
+plt.ylabel("Acceleration")
+plt.grid()
+plt.show()
+
+plt.plot(time,kenergy,label="Kinetic Energy")        #energy-time graph
+plt.plot(time,penergy, label="Potential Energy")
+plt.plot(time,energy, label="Total Energy")          
+plt.xlabel("Time")
+plt.ylabel("Energy")
+plt.grid()
+plt.show()
+
+plt.plot(positions,velocities)
+plt.xlabel("Position")
+plt.ylabel("Velocities")
+plt.grid()
+plt.show()
