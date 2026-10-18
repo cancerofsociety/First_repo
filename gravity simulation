@@ -1,0 +1,92 @@
+#Building a planetary orbit simulation (Euler method)
+import numpy as np
+import matplotlib.pyplot as plt
+import random as rd
+
+x_pos=[]
+y_pos=[]
+xi=1.0
+yi=0.0
+#xi=rd.uniform(0.0,1.0)
+#print("X=",xi)
+x_pos.append(xi)
+#yi=rd.uniform(0.0,1.0)
+#print("Y=",yi)
+y_pos.append(yi)
+
+vx_values=[]
+vy_values=[]
+vxi=0.0
+vyi=0.8
+#vxi=rd.uniform(0.0,1.0)
+#print("VX=",vxi)
+vx_values.append(vxi)
+#vyi=rd.uniform(0.0,1.0)
+#print("VY=",vyi)
+vy_values.append(vyi)
+
+ax_values=[]
+ay_values=[]
+
+kenergy=[]
+penergy=[]
+tenergy=[]
+de=[]
+
+dt=0.001
+#G=6.6743e-11
+M=1.0
+m=1.0
+time=np.arange(0,50,0.001)
+
+te0=0.5*m*(vxi**2+vyi**2)-M*m/np.sqrt(xi**2+yi**2)
+
+for i in time:
+    r=np.sqrt(xi**2+yi**2)
+    ax=-M*xi/(r**3)
+    ay=-M*yi/(r**3)
+    ax_values.append(ax)
+    ay_values.append(ay)
+    ke=0.5*m*(vxi**2+vyi**2)
+    kenergy.append(ke)
+    pe=-M*m/r
+    penergy.append(pe)
+    te=ke+pe
+    tenergy.append(te)
+    Delta_E=(te-te0)/te0
+    Delta_E=abs(Delta_E)
+    de.append(Delta_E)
+    vxi+=ax*dt
+    vyi+=ay*dt
+    vx_values.append(vxi)
+    vy_values.append(vyi)
+    xi+=vxi*dt
+    yi+=vyi*dt
+    x_pos.append(xi)
+    y_pos.append(yi)
+
+plt.plot(x_pos,y_pos)
+plt.xlabel("X-Position")
+plt.ylabel("Y-Position")
+plt.title("Planetary Orbit Simulation")
+plt.axis('equal')
+plt.grid()
+plt.show()
+
+plt.plot(time,kenergy,label="Kinetic Energy")
+plt.plot(time,penergy, label="Potential Energy")
+plt.plot(time,tenergy, label="Total Energy")
+plt.xlabel("Time")
+plt.ylabel("Energy")
+plt.title("Energy-Time Graph")
+plt.grid()
+plt.legend()
+plt.show()
+
+plt.plot(time,de)
+plt.xlabel("Time")
+plt.ylabel("Relative Energy Error")
+plt.title("Error with time")
+#plt.axis('equal')
+plt.grid()
+plt.show()
